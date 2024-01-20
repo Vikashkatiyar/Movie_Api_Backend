@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.service.annotation.PutExchange;
 
 import com.cinema.dto.MovieDto;
+import com.cinema.exception.EmptyFileException;
 import com.cinema.service.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -35,8 +36,10 @@ public class MovieController {
 	@PostMapping("/add-movie")
 	public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto)
 			throws IOException {
+        if(file.isEmpty()) {
+        	throw new EmptyFileException("File is empty! Please send another file");
+        }
 		MovieDto dto = convertToMovieDto(movieDto);
-
 		return new ResponseEntity<>(movieService.addMovie(dto, file), HttpStatus.CREATED);
 
 	}
@@ -61,12 +64,11 @@ public class MovieController {
 		MovieDto movieDto = convertToMovieDto(movieDtoObj);
 		return ResponseEntity.ok(movieService.updateMovie(movieId, movieDto, file));
 	}
-	
+
 	@DeleteMapping("/delete/{movieId}")
-	public ResponseEntity<String> deleteMovieHandler(@PathVariable Integer movieId) throws IOException{
+	public ResponseEntity<String> deleteMovieHandler(@PathVariable Integer movieId) throws IOException {
 		return ResponseEntity.ok(movieService.deleteMovie(movieId));
 	}
-	
 
 	// Change String to JSON
 	private MovieDto convertToMovieDto(String movieDtoObj) throws JsonMappingException, JsonProcessingException {
