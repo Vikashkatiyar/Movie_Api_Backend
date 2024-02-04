@@ -4,6 +4,7 @@
 package com.cinema.auth.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +20,7 @@ import com.cinema.auth.repositories.UserRepository;
  * @author vikash katiyar
  *
  */
+@Configuration
 public class ApplicationConfig {
 
 	private final UserRepository userRepository;
@@ -30,7 +32,7 @@ public class ApplicationConfig {
 	@Bean
 	public UserDetailsService userDetailsService() {
 
-		return username -> userRepository.findByUsername(username)
+		return username -> userRepository.findByEmail(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found with email:" + username));
 
 	}
