@@ -73,6 +73,7 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
+	
 	private boolean isEnabled = true;
 
 	private boolean isAccountNonExpired = true;
