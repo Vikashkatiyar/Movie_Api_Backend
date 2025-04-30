@@ -1,4 +1,4 @@
-# 🚀 **Spring Boot MovieAPI Backend**
+# 🚀 **Spring Boot MoviePosterFetch (MovieAPI) Backend**
 
 ---
 
